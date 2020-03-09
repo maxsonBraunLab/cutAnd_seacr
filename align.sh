@@ -1,25 +1,34 @@
 #!/bin/bash
 #SBATCH --nodes=1 #request 1 node
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=2gb
-#SBATCH --time=00:10:00 ## ask for 12 hours on the node to be safe
+#SBATCH --cpus-per-task=8
+#SBATCH --mem-per-cpu=10gb
+#SBATCH --time=04:00:00
 #SBATCH --verbose
 #SBATCH --job-name=align
 #SBATCH --output=logs/%x.%j.out
 #SBATCH --err=logs/%x.%j.err
 #SBATCH --array=0-31 # please start array index at 0
-#SBATCH --account=carbonelab
 
-# make sure log directory exists
-echo "not failing"
+# This scirpt will fail if you do not have a logs/ directory for
+# the output and error files to go into.
+# Change the following parameters: THREADS, BOWTIE2_IDX, and FASTQ_FILES. 
+# also make sure the --array SBATCH goes from 0 to the number of samples - 1
 
-# activate conda env containing bowtie2 and samtools
-# conda create -n align -y -c bioconda bowtie2 samtools
-source activate align
+#############
+#CONFIG
+##############
 
 THREADS=8
 BOWTIE_IDX="home/groups/MaxsonLab/indices/GRch38/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.bowtie_index"
 FASTQ_FILES="/home/groups/MaxsonLab/input-data/CUT_RUNTAG/2019/SETKAS_TAG_12_19/KAS_TAG_12_19/"
+
+##############
+#END CONFIG
+###############
+
+# activate conda env containing bowtie2 and samtools
+# conda create -n align -y -c bioconda bowtie2 samtools
+source activate align
 
 # define arrays with read 1 and read2
 r1s=(${FASTQ_FILES}*R1*)
@@ -59,6 +68,7 @@ else
 fi
 
 OUTPUT="data/bams/${SAMPLE}.bam"
+LOG="data/bams/${SAMPLE}.bowtie2.log
 echo "${OUTPUT}"
 
 # align PE reads and
