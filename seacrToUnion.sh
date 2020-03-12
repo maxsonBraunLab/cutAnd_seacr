@@ -23,7 +23,7 @@ source $PROJECT/cutAnd_seacr/cutAndConfig.sh
 IN=$PROJECT/process/cutAnd_seacr/beds
 IN2=$PROJECT/process/cutAnd_seacr/bams
 OUT=$PROJECT/process/cutAnd_seacr/seacr
-TODO=$PROJECT/cuttag/todo/30_downsampleTodo.txt
+TODO=$PROJECT/cuttag/todo/downsampleTodo.txt
 mkdir -p $OUT
 
 ### Record slurm info
