@@ -4,9 +4,24 @@ Input: fastq or bams; Output: bedgraphs, seacr peaks, counts table
 # For starters...
 
 **Clone repo**
-Clone this repo into your project directory *note: your project directory should be in your personal directory within the Maxson Lab space **not the input-data directory***
+  
+  `cd PATH/TO/PROJECT`
+  
+  `git clone LinkToThisRepo`
 
-**Make *30_downsampleTodo.txt* file**
+  Your project directory should be in your personal directory within the Maxson Lab space **not the input-data directory**
+  The link to this repo can be found by clicking the green button at the top right of this page.
+
+**Make *downsampleTodo.txt* file**
+  
+  You have two options here --
+  1. If you want to down sample all of your marks to the same number do this:
+    `cd path/to/alignments`
+    `ls *.bam > downsampleTodo.txt`
+    Look at file to make sure it captured the samples you want with IgGs. This should be a single column.
+    Move it to the cutAnd_seacr directory
+    `mv downsampleTodo.txt path/to/cutAnd_seacr`
+  2. If you want to downsample to different number of reads based on mark, make seperate todo files per mark with associated IgGs.
 
 **Make *metadata.txt* with assigned IgG**
 
@@ -17,6 +32,10 @@ Clone this repo into your project directory *note: your project directory should
 # 1. Align fastq files *align.sh*
 
 *QC: alignment statistics* 
+  
+  *note*: this is for the log files from Wes's script `20_sbatchHumanBowtie.sh` or `20_sbatchMouseBowtie.sh` if you use the `align.sh` the log files will have a different name.
+  
+  First, you will have to make a directory `mkdir PROJECT/cutAnd_seacr/logs/alignment` (fill in PROJECT, with your project path). Then use `mv Bowtie* PROJECT/cutAnd_seacr/logs/alignment`to move log files into directory. Once they are all together, use `srun collectBowtieStats.sh PROJECT/cutAnd_seacr/logs/alignment > align_stats.csv` to extract the alignment statistics
 
 # 2. Downsample to lowest number of reads within a mark *downsample.sh*
   
@@ -27,6 +46,8 @@ Clone this repo into your project directory *note: your project directory should
 
 *QC: number of peaks called per replicate, fraction of reads in peak*
 
+  To assess the fraction of reads in peak use `frip.py`. This requires making a conda environment
+  
 # 3. Merged bed file *seacrToUnion.sh*
 
  This script produces a merged bed file from all of the samples in a mark.
