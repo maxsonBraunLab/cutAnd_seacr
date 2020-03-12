@@ -27,7 +27,7 @@ NORM="norm"
 THRESH="relaxed"
 
 #These don't need to change
-TODO=$PROJECT/cuttag/todo/30_downsampleTodo.txt
+TODO=$PROJECT/cuttag/todo/downsampleTodo.txt
 META=$PROJECT/cutAnd_seacr/metadata.txt
 IN=$PROJECT/process/20_alignments
 OUT1=$PROJECT/process/cutAnd_seacr/bams
