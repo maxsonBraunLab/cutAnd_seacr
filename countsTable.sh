@@ -33,5 +33,6 @@ cmd="$BEDTOOLS multicov -bams $IN2/*$MARK\.ds.sorted.bam -bed $IN/$MARK\_bed_for
 echo $cmd
 eval $cmd
 
+#labeling counts table
 ls $IN2/*$MARK.ds.sorted.bam | grep -o '[^/]*$' | cut -d_ -f1 | tr "\n" "\t" | awk '{print "\t\t\t\t" $0}' | cat -  $OUT/$MARK\_counts.txt > $OUT/$MARK\_counts_labeled.txt
 
