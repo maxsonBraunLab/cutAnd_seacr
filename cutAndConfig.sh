@@ -4,7 +4,7 @@
 ### Make sure the project path is correct in the three scripts
 ### Change array number
 
-###TODO FILE = 30_downsampleTodo.txt
+###TODO FILE = downsampleTodo.txt
 #This file should be a list of .bam files from alignment. Include IgGs. Put in cutAnd_seacr directory
 
 ###METADATA FILE = metadata.txt
