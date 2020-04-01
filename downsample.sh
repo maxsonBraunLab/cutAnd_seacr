@@ -14,7 +14,7 @@
 #SBATCH --error              downsample_%A_%a.err           # Standard error
 #SBATCH --array              1-16                     # sets number of jobs in array
 
-#Set array number and your project directory
+#Set array number and your project directory (and possibly IN directory depending on the location of your alignment files)
 
 PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
 
@@ -27,12 +27,12 @@ NORM="norm"
 THRESH="relaxed"
 
 #These don't need to change
-TODO=$PROJECT/cutAnd_seacr/downsampleTodo.txt
-META=$PROJECT/cutAnd_seacr/metadata.txt
+TODO=$PROJECT/cutAnd_seacr/$todo
+META=$PROJECT/cutAnd_seacr/$meta
 IN=$PROJECT/process/20_alignments
-OUT1=$PROJECT/process/cutAnd_seacr/bams
-OUT2=$PROJECT/process/cutAnd_seacr/beds
-OUT3=$PROJECT/process/cutAnd_seacr/seacr
+OUT1=$PROJECT/process/bams
+OUT2=$PROJECT/process/beds
+OUT3=$PROJECT/process/seacr
 mkdir -p $OUT1
 mkdir -p $OUT2
 mkdir -p $OUT3
@@ -79,6 +79,12 @@ eval $cmd
 ### Sort bam by name
 cmd="$SAMTOOLS sort -n $OUT1/$NAME\.ds.bam > $OUT1/$NAME\.ds.name.sorted.bam"
 echo "Sort bam"
+echo $cmd
+eval $cmd
+
+### Bam to bigwig
+cmd="bamCoverage -b $OUT1/$NAME\.ds.sorted.bam -o $OUT2/$NAME\.ds.bw"
+echo "Bam to bw"
 echo $cmd
 eval $cmd
 
