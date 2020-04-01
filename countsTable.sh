@@ -19,9 +19,9 @@ PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
 
 source $PROJECT/cutAnd_seacr/cutAndConfig.sh
 
-IN=$PROJECT/process/cutAnd_seacr/seacr
-IN2=$PROJECT/process/cutAnd_seacr/bams
-OUT=$PROJECT/process/cutAnd_seacr/counts
+IN=$PROJECT/process/seacr
+IN2=$PROJECT/process/bams
+OUT=$PROJECT/process/counts
 mkdir -p $OUT
 
 echo "Superset total:"
