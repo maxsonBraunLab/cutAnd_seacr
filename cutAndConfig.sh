@@ -19,7 +19,7 @@ REF=/home/groups/MaxsonLab/software/ChromHMM/CHROMSIZES/hg38.txt
 #REF=/home/groups/MaxsonLab/software/ChromHMM/CHROMSIZES/mm10.txt
 
 ##4## DOWNSAMPLING VALUE
-#Change read number (RN) to what you want to downsample to
+#Change read number (RN) to DOUBLE what you want to downsample to (i.e. if you want 3M reads, set this number to 6000000)
 RN=3000000
 
 ##5## MARK
