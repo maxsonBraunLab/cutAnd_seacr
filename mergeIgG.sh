@@ -1,7 +1,6 @@
 #!/bin/bash
 
-### PURPOSE: Filter bam files then downsample to lowest number of reads (within reason, will most likely be ~3 million)
-###                             and produce fragment bedgraphs for SEACR analysis ###
+### PURPOSE: merge IgG bams for downstream analysis. Output is merge_IgG.bam ###
 
 #SBATCH --partition          exacloud                # partition (queue)
 #SBATCH --nodes              1                       # number of nodes
@@ -13,38 +12,40 @@
 #SBATCH --output             mergeIgG_%A.out           # Standard output
 #SBATCH --error              mergeIgG_%A.err           # Standard error
 
-#Set array number and your project directory (and possibly IN directory depending on the location of your alignment files)
+#Set ayour project directory (and possibly IN directory depending on the location of your alignment files)
 
 PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
 
 #########################################################
 
-source $PROJECT/4-2-20/cutAnd_seacr/cutAndConfig.sh
+source $PROJECT/cutAnd_seacr/cutAndConfig.sh
 
 #These don't need to change
 IN=$PROJECT/process/20_alignments
-OUT1=$PROJECT/4-2-20/process/bams
+OUT1=$PROJECT/process/bams
 mkdir -p $OUT1
 
 ### Record slurm info
 echo "SLURM_JOBID: " $SLURM_JOBID
 
+
 #Sort bam files
+for file in `ls $IN/*IgG.bam`; do
+	name=`echo $file | cut -d "/" -f 9 | sed 's/.bam//g'`
+	echo $name
+	cmd="$SAMTOOLS sort $file -o $OUT1/$name\.sorted.bam"
+	echo $cmd
+	eval $cmd
+done
 
-#for file in `ls $IN/*IgG.bam`; do
-#	name=`echo $file | cut -d "/" -f 9 | sed 's/.bam//g'`
-#	echo $name
-#	cmd="$SAMTOOLS sort $file -o $OUT1/$name\.sorted.bam"
-#	echo $cmd
-#	eval $cmd
-#done
-
+#Index bam files
 for file2 in `ls $OUT1/*IgG.sorted.bam`; do
         cmd="$SAMTOOLS index $file2"
         echo $cmd
         eval $cmd
 done
 
+#Merge IgGs
 cmd3="$SAMTOOLS merge $OUT1/merge_IgG.bam $OUT1/*IgG.sorted.bam"
 echo $cmd3
 eval $cmd3 
