@@ -49,16 +49,3 @@ done
 cmd3="$SAMTOOLS merge $OUT1/merge_IgG.bam $OUT1/*IgG.sorted.bam"
 echo $cmd3
 eval $cmd3 
-
-
-#cmd=$SAMTOOLS sort $i -o $OUT1/$i\.sorted.bam; done
-#cmd2=$SAMTOOLS index $OUT1/$NAME\.sorted.bam
-
-#for i in $OUT1/*IgG.sorted.bam; do NAME=${i%%.bam} | cmd="$SAMTOOLS index $OUT1/$NAME\.sorted.bam" | echo $cmd; done
-
-#for output in $cmd; do $cmd2 ; done
-
-
-
-#Merge bam files
-#cmd="SAMTOOLS merge -b $OUT1/*IgG.sorted.bam" 
