@@ -25,26 +25,41 @@ Input: fastq or bams; Output: bedgraphs, seacr peaks, counts table
 
 **Make *metadata.txt* with assigned IgG**
 
-  If using IgGs from a different experiment, use `cp` to copy the bam files into alignment directory. 
-
-**Set up *cutAndConfig.sh***
+  This is a tab delimited file. It may be easiest to make this in excel, save it as a .txt, then put it in your cutAnd_seacr directory. However, there are a number of different ways of making these, just make sure it is tab delimited and you should be good! There is an example of how the metadata file should look in the example directory of this repo. *If using IgGs from a different experiment, use `cp` to copy the bam files into alignment directory.* 
 
 # 1. Align fastq files *align.sh*
+
+INPUT | OUTPUT
+------|-------
+.fastq.gz| bam and sam files
+
 
 *QC: alignment statistics* 
   
   *note*: this is for the log files from Wes's script `20_sbatchHumanBowtie.sh` or `20_sbatchMouseBowtie.sh` if you use the `align.sh` the log files will have a different name.
   
-  First, you will have to make a directory `mkdir PROJECT/cutAnd_seacr/logs/alignment` (fill in PROJECT, with your project path). Then use `mv Bowtie* PROJECT/cutAnd_seacr/logs/alignment`to move log files into directory. Once they are all together, use `srun collectBowtieStats.sh PROJECT/cutAnd_seacr/logs/alignment > align_stats.csv` to extract the alignment statistics
+  First, you will have to make a directory `mkdir PROJECT/cutAnd_seacr/logs/alignment` (fill in PROJECT, with your project path). Then use `mv Bowtie* PROJECT/cutAnd_seacr/logs/alignment`to move log files into directory. Once they are all together, use `srun collectBowtieStats.sh PROJECT/cutAnd_seacr/logs/alignment > align_stats.csv` to extract the alignment statistics. You can use these counts to determine downsampling number.
+  
+  **Set up *cutAndConfig.sh***
+
+  You can have different configs for each mark, or use the same config and change the variables. There are five varibles that need to be changed in this file (todo, meta, REF, RN, and MARK).
 
 # 2. Downsample to lowest number of reads within a mark *downsample.sh*
+
+INPUT | OUTPUT | directory
+------|-------|-------------
+.bam|downsampled bam | process/bams/*.ds.bam
+ na|downsampled bedgraphs | process/beds/*.ds.bedgraph
+ na|downsampled bigwigs | process/beds/*.ds.bw
+ na|seacr peaks| process/seacr/*.relaxed.bed
   
-  You can either do all samples to the same number of reads or have seperate todo files for each set of marks then downsample on a mark by mark basis.
+  Before using this script, ensure your `cutAndconfig.sh` is properly set up. You can either do all samples to the same number of reads or have seperate todo files for each set of marks then downsample on a mark by mark basis.
   
-  We don't suggest going below 3 million reads based on findings from original paper (Hatice et al. 2019)
-  This step produces downsampled bam files *bams/sample.ds.bam* and seacr peaks *seacr/sample.relaxed.bed*
+  We don't suggest going below 3 million reads based on findings from original paper (Hatice et al. 2019), however, 2 million may be okay in some cases.
 
 *QC: number of peaks called per replicate, fraction of reads in peak*
+
+  To look at the number of peaks called per relicate you can use this command in the directory where your downsampled.out files are found: `for i in ./*.out; do cat $i | sed -n -e 5p -e 43p; done > peakCounts.txt`. To be honest, this command does not make a very pretty table, but it will give you an idea of how many peaks were called per sample. *Note: if it doesn't print anything, or what you'd expect it to, then the line numbers are probably wrong. Use `cat -n FILENAME.out` on one of your samples to look at what line numbers you need to use.*
 
   To assess the fraction of reads in peak use `frip.py`. This requires making a conda environment
   
