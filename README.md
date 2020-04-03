@@ -59,7 +59,7 @@ INPUT | OUTPUT | directory
 
 *QC: number of peaks called per replicate, fraction of reads in peak*
 
-  To look at the number of peaks called per relicate you can use this command in the directory where your downsampled.out files are found: `for i in ./*.out; do cat $i | sed -n -e 5p -e 43p; done > peakCounts.txt`. To be honest, this command does not make a very pretty table, but it will give you an idea of how many peaks were called per sample. *Note: if it doesn't print anything, or what you'd expect it to, then the line numbers are probably wrong. Use `cat -n FILENAME.out` on one of your samples to look at what line numbers you need to use.*
+  To look at the number of peaks called per relicate you can use this command in the directory process/seacr: `wc -l *.bed`. 
 
   To assess the fraction of reads in peak use `frip.py`. This requires making a conda environment
   
