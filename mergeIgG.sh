@@ -14,7 +14,7 @@
 
 #Set ayour project directory (and possibly IN directory depending on the location of your alignment files)
 
-PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
+PROJECT=/your/project/directory/
 
 #########################################################
 
