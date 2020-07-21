@@ -1,6 +1,8 @@
 # Pipeline for CUT&Tag/RUN
 Input: fastq or bams; Output: bedgraphs, seacr peaks, counts table
 
+`align.sh` > `downsample.sh` > `seacrToUnion.sh` > `countsTable.sh`
+
 # For starters...
 
 **Clone repo**
@@ -53,7 +55,7 @@ INPUT | OUTPUT | directory
  na|downsampled bigwigs | process/beds/*.ds.bw
  na|seacr peaks| process/seacr/*.relaxed.bed
   
-  Before using this script, ensure your `cutAndconfig.sh` is properly set up. You can either do all samples to the same number of reads or have seperate todo files for each set of marks then downsample on a mark by mark basis.
+  Before using this script, ensure your `cutAndconfig.sh` is properly set up. You can either do all samples to the same number of reads or have seperate todo files for each set of marks then downsample on a mark by mark basis. Also make sure to change `PROJECT` to your project's file path.
   
   We don't suggest going below 3 million reads based on findings from original paper (Hatice et al. 2019), however, 2 million may be okay in some cases.
 
@@ -65,12 +67,14 @@ INPUT | OUTPUT | directory
   
 # 3. Merged bed file *seacrToUnion.sh*
 
+ Change `PROJECT` to your project's file path.
+ 
  This script produces a merged bed file from all of the samples in a mark.
   
 *QC: number of peaks in each merge, number of peaks in superset*  
 
 # 4. Counts table *countsTable.sh*
-
+  Change `PROJECT` to your project's file path.
   This script also assigns a unique peak IDs for downstream analysis.
   
  *QC: ??* 
