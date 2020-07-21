@@ -14,8 +14,7 @@
 #SBATCH --error              seacr_%A_%a.err     # Standard error
 #SBATCH --array              1-8                    # sets number of jobs in array
 
-
-PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
+PROJECT=/your/project/directory/
 
 ###############################################################
 
