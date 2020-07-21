@@ -13,7 +13,7 @@
 #SBATCH --error              counts_%A.err     # Standard error
 
 
-PROJECT=/home/groups/MaxsonLab/smithb/KASUMI_TAG_12_19
+PROJECT=/your/project/directory/
 
 ########################################################
 
